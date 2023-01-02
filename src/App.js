@@ -1,22 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import axios from "axios";
+import "./App.css";
 
-function App() {
+function App(prop) {
+  let [temp, setTemp] = useState("");
+  function handleResponse(response) {
+    setTemp(`It's ${response.data.main.temp}`);
+  }
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${prop.city}&appid=f28953e2adf95c39204b733667598ea9&units=metric`;
+  axios.get(url).then(handleResponse);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <p>{temp}</p>
       </header>
     </div>
   );
