@@ -1,20 +1,59 @@
 import React, { useState } from "react";
-import axios from "axios";
-import "./App.css";
 
-function App(prop) {
-  let [temp, setTemp] = useState("");
-  function handleResponse(response) {
-    setTemp(`It's ${response.data.main.temp}`);
+import "./App.css";
+import Weather from "./Weather";
+
+function App() {
+  const [city, setCity] = useState("");
+  let cityInput;
+
+  function submitCity(event) {
+    event.preventDefault();
+    setCity(cityInput);
   }
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${prop.city}&appid=f28953e2adf95c39204b733667598ea9&units=metric`;
-  axios.get(url).then(handleResponse);
+
+  function cityName(event) {
+    event.preventDefault();
+    cityInput = event.target.value;
+  }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>{temp}</p>
-      </header>
+    <div className="container">
+      <div className="Main">
+        <div className="row">
+          <div className="col col-sm-12">
+            <form className="input-group" onSubmit={submitCity}>
+              <input
+                type="search"
+                autocomplete="off"
+                className="form-control input-city"
+                placeholder="Enter a city"
+                onChange={cityName}
+              />
+              <button
+                className="btn btn-outline-primary input-city"
+                type="submit">
+                Search
+              </button>
+              <button
+                className="btn btn-outline-primary input-city"
+                type="button">
+                Current
+              </button>
+            </form>
+          </div>
+        </div>
+        <Weather city={city} />
+      </div>
+      <div class="Github-link">
+        <a
+          href="https://github.com/Yasya23/WeatherApp-React"
+          target="_blank"
+          rel="noreferrer">
+          Open source code
+        </a>{" "}
+        by Yana Zahoruiko
+      </div>
     </div>
   );
 }
