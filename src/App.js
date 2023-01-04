@@ -25,7 +25,7 @@ function App() {
             <form className="input-group" onSubmit={submitCity}>
               <input
                 type="search"
-                autocomplete="off"
+                autoComplete="off"
                 className="form-control input-city"
                 placeholder="Enter a city"
                 onChange={cityName}
@@ -45,7 +45,7 @@ function App() {
         </div>
         <Weather city={city} />
       </div>
-      <div class="Github-link">
+      <div className="Github-link">
         <a
           href="https://github.com/Yasya23/WeatherApp-React"
           target="_blank"
