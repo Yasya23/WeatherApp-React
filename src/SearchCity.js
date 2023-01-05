@@ -41,7 +41,7 @@ export default function SearchCity() {
     console.log(response);
     let lat = response.data[0].lat;
     let lon = response.data[0].lon;
-    const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=5&appid=${key}&units=metric`;
+    const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=5&appid=${key}&units=metric`;
     axios.get(url).then(handleResponse);
   }
 
