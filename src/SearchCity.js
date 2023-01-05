@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import WeatherForDay from "./WeatherForDay";
+import FutureWeatherList from "./FutureWeatherList";
 
 export default function SearchCity() {
   let key = "02fcb025d3addcd1b48a81a78b212aae";
@@ -68,6 +69,7 @@ export default function SearchCity() {
         </div>
       </div>
       <WeatherForDay city={city} weather={weather} />
+      <FutureWeatherList weather={weather} />
     </div>
   );
 }
