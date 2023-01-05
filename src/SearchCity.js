@@ -11,7 +11,7 @@ export default function SearchCity() {
 
   function submitCity(event) {
     event.preventDefault();
-    const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${key}`;
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${key}`;
     axios.get(url).then(searchCityByCoordinats);
   }
 
@@ -31,7 +31,7 @@ export default function SearchCity() {
         min: Math.round(day.main.temp_min),
         humidity: Math.round(day.main.humidity),
         wind: Math.round(day.wind.speed),
-        icon: `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`,
+        icon: `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`,
       })
     );
     setWeather(weatherDaily);
