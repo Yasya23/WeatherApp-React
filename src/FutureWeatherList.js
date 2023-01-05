@@ -1,3 +1,4 @@
+import React from "react";
 import "./FutureWeatherList.css";
 
 export default function FutureWeatherList(prop) {
