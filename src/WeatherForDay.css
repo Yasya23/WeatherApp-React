@@ -1,3 +1,29 @@
+.Icon-main {
+  text-align: center;
+}
+.Temp {
+  position: relative;
+}
+
+.Temp-value {
+  margin-right: 2px;
+  display: inline-block;
+  font-size: 90px;
+  color: var(--second-color);
+}
+
+.Temp-units {
+  display: inline-block;
+  position: absolute;
+  top: 30px;
+  font-size: 20px;
+}
+
+.Active {
+  color: var(--second-color);
+  cursor: default;
+}
+
 .Weather-values {
   padding: 5px 0 0 5px;
   font-size: 18px;

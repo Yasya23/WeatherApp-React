@@ -6,7 +6,7 @@ export default function WeatherForDay(prop) {
       <div>
         <div className="row">
           <div className="col">
-            <h1 className="city-name">{prop.city}</h1>
+            <h1 className="City-name">{prop.city}</h1>
             <h2>{prop.weather[0].description}</h2>
           </div>
         </div>
@@ -15,9 +15,9 @@ export default function WeatherForDay(prop) {
             <img src={prop.weather[0].icon} alt="" />
           </div>
           <div className="col-sm-4">
-            <div className="temp">
-              <div className="temp-value">{prop.weather[0].temp}</div>
-              <div className="temp-units">
+            <div className="Temp">
+              <div className="Temp-value">{prop.weather[0].temp}</div>
+              <div className="Temp-units">
                 <a href="/" className="active" id="celcius">
                   &#186;C
                 </a>

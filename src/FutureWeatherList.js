@@ -1,25 +1,26 @@
 import "./FutureWeatherList.css";
 
 export default function FutureWeatherList(prop) {
+  console.log(prop);
   if (prop.weather !== null) {
     const list = [];
     console.log(list);
     for (let i = 1; i < 5; i++) {
       list.push(
         <div key={i} className="col">
-          <ul className="future-forecast">
-            <li className="day-of-the-week"></li>
+          <ul className="Future-forecast">
+            <li className="Day-of-the-week"></li>
             <li>
               <img
                 src={prop.weather[i].icon}
                 alt=""
-                height="50"
-                width="50"
-                className="forecast-icon"
+                height="70"
+                width="70"
+                className="Forecast-icon"
               />
             </li>
-            <li className="day-temperature">{prop.weather[i].temp}</li>
-            <li className="night-temperature">{prop.weather[i].temp}</li>
+            <li className="Day-temperature">{prop.weather[i].max}</li>
+            <li className="Night-temperature">{prop.weather[i].min}</li>
           </ul>
         </div>
       );

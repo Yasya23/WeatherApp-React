@@ -27,6 +27,8 @@ export default function SearchCity() {
       weatherDaily.push({
         description: day.weather[0].description,
         temp: Math.round(day.main.temp),
+        max: Math.round(day.main.temp_max),
+        min: Math.round(day.main.temp_min),
         humidity: Math.round(day.main.humidity),
         wind: Math.round(day.wind.speed),
         icon: `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`,
@@ -39,7 +41,7 @@ export default function SearchCity() {
     console.log(response);
     let lat = response.data[0].lat;
     let lon = response.data[0].lon;
-    const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=5&appid=${key}`;
+    const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=5&appid=${key}&units=metric`;
     axios.get(url).then(handleResponse);
   }
 
