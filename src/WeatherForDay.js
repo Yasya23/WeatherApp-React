@@ -1,12 +1,11 @@
 import "./WeatherForDay.css";
 
 export default function WeatherForDay(prop) {
-  if (prop.weather !== null) {
     return (
       <div>
         <div className="row">
           <div className="col">
-            <h1 className="City-name">{prop.city}</h1>
+            <h1 className="City-name">{prop.weather[0].city}</h1>
             <h2>{prop.weather[0].description}</h2>
           </div>
         </div>
@@ -34,5 +33,4 @@ export default function WeatherForDay(prop) {
         </div>
       </div>
     );
-  }
 }
