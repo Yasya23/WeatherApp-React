@@ -8,7 +8,7 @@ export default function WeatherForDay(prop) {
         <div className="col">
           <h1 className="City-name">{prop.weather[0].city}</h1>
           <h2>{prop.weather[0].description}</h2>
-          <p></p>
+          <p>{prop.weather[0].date.full}</p>
         </div>
       </div>
       <div className="row align-items-center">

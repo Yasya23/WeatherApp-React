@@ -10,7 +10,9 @@ export default function FutureWeatherList(prop) {
       list.push(
         <div key={i} className="col">
           <ul className="Future-forecast">
-            <li className="Day-of-the-week"></li>
+            <li className="Day-of-the-week">
+              {prop.weather[i].date.day.slice(0, 3)}
+            </li>
             <li>
               <img
                 src={prop.weather[i].icon}

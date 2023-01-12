@@ -4,7 +4,7 @@ import WeatherForDay from "./WeatherForDay";
 import FutureWeatherList from "./FutureWeatherList";
 
 export default function SearchCity(prop) {
-  let key = "02fcb025d3addcd1b48a81a78b212aae";
+  let key = "7tddcc04c39d0b7bffb9bca4oab00bfa";
 
   let [weather, setWeather] = useState("");
   let [loaded, setLoaded] = useState("false");
@@ -21,35 +21,34 @@ export default function SearchCity(prop) {
   }
 
   function callApi() {
-    console.log(1);
-    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${key}`;
-    axios.get(url).then(searchCityByCoordinats);
-  }
-
-  function searchCityByCoordinats(response) {
-    let lat = response.data[0].lat;
-    let lon = response.data[0].lon;
-    const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=20&appid=${key}&units=metric`;
+    const url = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${key}&units=metric`;
+    // axios.get(url).then(searchCityByCoordinats);
     axios.get(url).then(handleResponse);
   }
+
+  // function searchCityByCoordinats(response) {
+  //   let lat = response.data[0].lat;
+  //   let lon = response.data[0].lon;
+  //   const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=20&appid=${key}&units=metric`;
+  //   axios.get(url).then(handleResponse);
+  // }
 
   function handleResponse(response) {
     console.log(response);
     setLoaded("true");
     let weatherDaily = [];
-    let city = response.data.city.name;
-    response.data.list.map((day) =>
+    let city = response.data.city;
+    response.data.daily.map((day) =>
       weatherDaily.push({
         city: `${city}`,
-        description: day.weather[0].description,
-        temp: Math.round(day.main.temp),
-        max: Math.round(day.main.temp_max),
-        min: Math.round(day.main.temp_min),
-        feelsLike: Math.round(day.main.feels_like),
-        humidity: Math.round(day.main.humidity),
+        description: day.condition.description,
+        temp: Math.round(day.temperature.day),
+        max: Math.round(day.temperature.maximum),
+        min: Math.round(day.temperature.minimum),
+        humidity: Math.round(day.temperature.humidity),
         wind: Math.round(day.wind.speed),
-        icon: `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`,
-        date: convertDate(day.dt),
+        icon: day.condition.icon_url,
+        date: convertDate(day.time),
       })
     );
     setWeather(weatherDaily);
@@ -57,7 +56,6 @@ export default function SearchCity(prop) {
 
   function convertDate(data) {
     let date = new Date(data * 1000);
-    console.log(date);
     const months = [
       "January",
       "February",
@@ -85,7 +83,12 @@ export default function SearchCity(prop) {
     const day = days[date.getDay()];
     let dayNumber = date.getDate();
     if (dayNumber < 10) dayNumber = `0${dayNumber}`;
-    return { day: day, month: month, date: dayNumber };
+    return {
+      day: day,
+      month: month,
+      date: dayNumber,
+      full: `${month} ${dayNumber}, ${day}`,
+    };
   }
 
   if (loaded === "true") {

@@ -11,6 +11,7 @@ li {
 .Day-of-the-week {
   font-weight: 700;
   margin-bottom: 5px;
+  text-transform: uppercase;
 }
 
 .Day-temperature {
