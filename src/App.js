@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="container">
       <div className="Main">
-        <SearchCity />
+        <SearchCity defaultCity="Lviv" />
       </div>
       <div className="Github-link">
         <a

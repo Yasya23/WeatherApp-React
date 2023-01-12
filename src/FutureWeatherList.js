@@ -2,11 +2,10 @@ import React from "react";
 import "./FutureWeatherList.css";
 
 export default function FutureWeatherList(prop) {
-  console.log(prop.weather.length);
-  if (prop.weather !== null && prop.weather.length>1) {
+  if (prop.weather !== null && prop.weather.length > 1) {
     // console.log(prop);
     const list = [];
-    console.log(list);
+    // console.log(list);
     for (let i = 1; i < 5; i++) {
       list.push(
         <div key={i} className="col">
