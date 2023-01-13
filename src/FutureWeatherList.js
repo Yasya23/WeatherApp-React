@@ -22,8 +22,8 @@ export default function FutureWeatherList(prop) {
                 className="Forecast-icon"
               />
             </li>
-            <li className="Day-temperature">{prop.weather[i].max}</li>
-            <li className="Night-temperature">{prop.weather[i].min}</li>
+            <li className="Day-temperature">{prop.weather[i].max}&#186;</li>
+            <li className="Night-temperature">{prop.weather[i].min}&#186;</li>
           </ul>
         </div>
       );

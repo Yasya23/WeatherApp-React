@@ -9,6 +9,7 @@ export default function SearchCity(prop) {
   let [weather, setWeather] = useState("");
   let [loaded, setLoaded] = useState("false");
   let [city, setCity] = useState(prop.defaultCity);
+  let [units, setUnits] = useState("metric");
 
   function cityName(event) {
     event.preventDefault();
@@ -21,7 +22,7 @@ export default function SearchCity(prop) {
   }
 
   function callApi() {
-    const url = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${key}&units=metric`;
+    const url = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${key}&units=${units}`;
     // axios.get(url).then(searchCityByCoordinats);
     axios.get(url).then(handleResponse);
   }

@@ -12,9 +12,10 @@ export default function WeatherForDay(prop) {
         </div>
       </div>
       <div className="row align-items-center">
-        <div className="col-sm-4 icon-main">
+        <div className="col-sm-4 Icon-main">
           <img src={prop.weather[0].icon} alt="" />
         </div>
+
         <div className="col-sm-4">
           <div className="Temp">
             <div className="Temp-value">{prop.weather[0].temp}</div>
@@ -22,14 +23,19 @@ export default function WeatherForDay(prop) {
               <a href="/" className="active" id="celcius">
                 &#186;C
               </a>
-              <a href="/">&#186;F</a>
+              <a href="/"> &#186;F</a>
             </div>
           </div>
         </div>
+
         <div className="col-sm-4">
           <ul className="Weather-values">
-            <li>Humidity:{prop.weather[0].humidity}</li>
-            <li>Wind:{prop.weather[0].wind}</li>
+            <li>
+              Humidity: {prop.weather[0].humidity} <span>%</span>
+            </li>
+            <li>
+              Wind: {prop.weather[0].wind} <span>km/h</span>
+            </li>
           </ul>
         </div>
       </div>

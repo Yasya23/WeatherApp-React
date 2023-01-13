@@ -25,8 +25,20 @@
   font-size: 20px;
 }
 
+.Temp-units a {
+  text-decoration: none;
+  color: inherit;
+  transition: all ease-in-out 0.2s;
+}
+
+.Temp-units a:hover {
+  text-decoration: none;
+  color: blue;
+}
+
 .Active {
   color: var(--second-color);
+  color: blue;
   cursor: default;
 }
 
@@ -34,6 +46,10 @@
   padding: 5px 0 0 5px;
   font-size: 18px;
   text-align: left;
+}
+
+.Weather-values span {
+  text-transform: lowercase;
 }
 
 @media (max-width: 570px) {

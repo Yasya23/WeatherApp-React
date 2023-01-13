@@ -6,6 +6,13 @@ li {
   margin: 10px 0;
   padding: 10px;
   text-align: center;
+  transition: all ease-in-out 0.5s;
+  cursor: pointer;
+}
+
+.Future-forecast:hover {
+  background-color: aliceblue;
+  border-radius: 10px;
 }
 
 .Day-of-the-week {
