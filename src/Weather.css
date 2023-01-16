@@ -1,12 +1,3 @@
-.City-name {
-  font-weight: 700;
-  font-size: 30px;
-}
-
-.Icon-main {
-  text-align: center;
-}
-
 .Temp {
   position: relative;
 }
@@ -27,34 +18,22 @@
 
 .Temp-units a {
   text-decoration: none;
-  color: inherit;
+  color: black;
   transition: all ease-in-out 0.2s;
 }
 
 .Temp-units a:hover {
   text-decoration: none;
+  color: rgb(117, 117, 255);
+  cursor: pointer;
+}
+
+.Temp-units .Active {
   color: blue;
-}
-
-.Active {
-  color: var(--second-color);
-  color: blue;
-  cursor: default;
-}
-
-.Weather-values {
-  padding: 5px 0 0 5px;
-  font-size: 18px;
-  text-align: left;
-}
-
-.Weather-values span {
-  text-transform: lowercase;
 }
 
 @media (max-width: 570px) {
-  .Temp,
-  .Weather-values li {
+  .Temp {
     text-align: center;
   }
 }

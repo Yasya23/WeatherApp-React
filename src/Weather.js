@@ -1,19 +1,45 @@
 import React, { useState } from "react";
 import axios from "axios";
-import WeatherForDay from "./WeatherForDay";
+// import WeatherForDay from "./WeatherForDay";
 import FutureWeatherList from "./FutureWeatherList";
+import MainIcon from "./MainIcon";
+import WeatherDescription from "./WeatherDescription";
+import "./Weather.css";
+import WeatherValues from "./WeatherValues";
 
-export default function SearchCity(prop) {
+export default function Weather(prop) {
   let key = "7tddcc04c39d0b7bffb9bca4oab00bfa";
 
   let [weather, setWeather] = useState("");
   let [loaded, setLoaded] = useState("false");
   let [city, setCity] = useState(prop.defaultCity);
   let [units, setUnits] = useState("metric");
+  let [windSpeed, setWindSpeed] = useState("km/h");
 
   function cityName(event) {
     event.preventDefault();
     setCity(event.target.value);
+  }
+
+  function convertToFahrenheit(event) {
+    event.preventDefault();
+    document.querySelector(".Fahrenheit").classList.add("Active");
+    document.querySelector(".Celcius").classList.remove("Active");
+    // setLoaded("false");
+
+    setWindSpeed("m/h");
+    setUnits("imperial");
+    callApi();
+  }
+
+  function convertToCelcius(event) {
+    event.preventDefault();
+    document.querySelector(".Celcius").classList.add("Active");
+    document.querySelector(".Fahrenheit").classList.remove("Active");
+    // setLoaded("false");
+    setUnits("metric");
+    setWindSpeed("km/h");
+    callApi();
   }
 
   function submitCity(event) {
@@ -49,6 +75,7 @@ export default function SearchCity(prop) {
         humidity: Math.round(day.temperature.humidity),
         wind: Math.round(day.wind.speed),
         icon: day.condition.icon_url,
+        iconAlt: day.condition.icon,
         date: convertDate(day.time),
       })
     );
@@ -118,7 +145,42 @@ export default function SearchCity(prop) {
             </form>
           </div>
         </div>
-        <WeatherForDay weather={weather} />
+        <div>
+          <WeatherDescription
+            city={weather[0].city}
+            description={weather[0].description}
+            date={weather[0].date.full}
+          />
+          <div className="row align-items-center">
+            <MainIcon src={weather[0].icon} alt={weather[0].iconAlt} />
+
+            <div className="col-sm-4">
+              <div className="Temp">
+                <div className="Temp-value">{weather[0].temp}</div>
+                <div className="Temp-units">
+                  <a
+                    href="/"
+                    className="Celcius Active"
+                    onClick={convertToCelcius}>
+                    &#186;C
+                  </a>
+                  <a
+                    href="/"
+                    className="Fahrenheit"
+                    onClick={convertToFahrenheit}>
+                    &#186;F
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <WeatherValues
+              wind={weather[0].wind}
+              windSpeed={windSpeed}
+              humidity={weather[0].humidity}
+            />
+          </div>
+        </div>
         <FutureWeatherList weather={weather} />
       </div>
     );

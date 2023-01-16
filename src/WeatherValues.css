@@ -1,0 +1,15 @@
+.Weather-values {
+  padding: 5px 0 0 5px;
+  font-size: 18px;
+  text-align: left;
+}
+
+.Weather-values span {
+  text-transform: lowercase;
+}
+
+@media (max-width: 570px) {
+  .Weather-values li {
+    text-align: center;
+  }
+}

@@ -1,13 +1,13 @@
 import React from "react";
 
 import "./App.css";
-import SearchCity from "./SearchCity";
+import Weather from "./Weather";
 
 function App() {
   return (
     <div className="container">
       <div className="Main">
-        <SearchCity defaultCity="Lviv" />
+        <Weather defaultCity="Lviv" />
       </div>
       <div className="Github-link">
         <a
