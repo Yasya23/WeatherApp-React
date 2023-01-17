@@ -14,6 +14,8 @@ export default function Weather(prop) {
   let [loaded, setLoaded] = useState("false");
   let [city, setCity] = useState(prop.defaultCity);
   let [windSpeed, setWindSpeed] = useState("km/h");
+  let units = "metric";
+
   function cityName(event) {
     event.preventDefault();
     setCity(event.target.value);
@@ -21,47 +23,55 @@ export default function Weather(prop) {
 
   function convertToFahrenheit(event) {
     event.preventDefault();
-    console.log(1);
-    document.querySelector(".Fahrenheit").classList.add("Active");
-    document.querySelector(".Celcius").classList.remove("Active");
+    replaceActiveUnitColor(".Fahrenheit", ".Celcius");
     setWindSpeed("m/h");
-    changeUnit("imperial");
+    units = "imperial";
+    callApi();
   }
 
   function convertToCelcius(event) {
     event.preventDefault();
-    document.querySelector(".Celcius").classList.add("Active");
-    document.querySelector(".Fahrenheit").classList.remove("Active");
-    changeUnit("metric");
+    replaceActiveUnitColor(".Celcius", ".Fahrenheit");
     setWindSpeed("km/h");
+    units = "metric";
+    callApi();
   }
-  function changeUnit(unit) {
-    callApi(unit);
+
+  function replaceActiveUnitColor(add, remove) {
+    document.querySelector(add).classList.add("Active");
+    document.querySelector(remove).classList.remove("Active");
   }
 
   function submitCity(event) {
     event.preventDefault();
-    callApi("metric");
+    callApi();
   }
 
-  function callApi(units) {
+  function getCurrentLocation(event) {
+    event.preventDefault();
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      if (lat !== 0 || lon !== 0) {
+        searchByCoordinats(lat, lon);
+      }
+    });
+  }
+
+  function callApi() {
     const url = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${key}&units=${units}`;
-    // axios.get(url).then(searchCityByCoordinats);
     axios.get(url).then(handleResponse);
   }
 
-  // function searchCityByCoordinats(response) {
-  //   let lat = response.data[0].lat;
-  //   let lon = response.data[0].lon;
-  //   const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=20&appid=${key}&units=metric`;
-  //   axios.get(url).then(handleResponse);
-  // }
+  function searchByCoordinats(lat, lon) {
+    const url = `https://api.shecodes.io/weather/v1/forecast?lon=${lon}&lat=${lat}&key=${key}`;
+    axios.get(url).then(handleResponse);
+  }
 
   function handleResponse(response) {
-    console.log(response);
     setLoaded("true");
+    setCity(response.data.city);
     let weatherDaily = [];
-    let city = response.data.city;
     response.data.daily.map((day) =>
       weatherDaily.push({
         city: `${city}`,
@@ -136,7 +146,8 @@ export default function Weather(prop) {
               </button>
               <button
                 className="btn btn-outline-primary input-city"
-                type="button">
+                type="button"
+                onClick={getCurrentLocation}>
                 Current
               </button>
             </form>
@@ -144,7 +155,7 @@ export default function Weather(prop) {
         </div>
         <div>
           <WeatherDescription
-            city={weather[0].city}
+            city={city}
             description={weather[0].description}
             date={weather[0].date.full}
           />
@@ -182,7 +193,7 @@ export default function Weather(prop) {
       </div>
     );
   } else {
-    callApi("metric");
+    callApi();
     return <p>Loaded...</p>;
   }
 }
