@@ -44,6 +44,7 @@ export default function Weather(prop) {
 
   function submitCity(event) {
     event.preventDefault();
+    replaceActiveUnitColor(".Celcius", ".Fahrenheit");
     callApi();
   }
 
@@ -54,6 +55,7 @@ export default function Weather(prop) {
       const lon = position.coords.longitude;
       if (lat !== 0 || lon !== 0) {
         searchByCoordinats(lat, lon);
+        replaceActiveUnitColor(".Celcius", ".Fahrenheit");
       }
     });
   }
