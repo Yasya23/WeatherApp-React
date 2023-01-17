@@ -13,9 +13,7 @@ export default function Weather(prop) {
   let [weather, setWeather] = useState("");
   let [loaded, setLoaded] = useState("false");
   let [city, setCity] = useState(prop.defaultCity);
-  let [units, setUnits] = useState("metric");
   let [windSpeed, setWindSpeed] = useState("km/h");
-
   function cityName(event) {
     event.preventDefault();
     setCity(event.target.value);
@@ -23,31 +21,30 @@ export default function Weather(prop) {
 
   function convertToFahrenheit(event) {
     event.preventDefault();
+    console.log(1);
     document.querySelector(".Fahrenheit").classList.add("Active");
     document.querySelector(".Celcius").classList.remove("Active");
-    // setLoaded("false");
-
     setWindSpeed("m/h");
-    setUnits("imperial");
-    callApi();
+    changeUnit("imperial");
   }
 
   function convertToCelcius(event) {
     event.preventDefault();
     document.querySelector(".Celcius").classList.add("Active");
     document.querySelector(".Fahrenheit").classList.remove("Active");
-    // setLoaded("false");
-    setUnits("metric");
+    changeUnit("metric");
     setWindSpeed("km/h");
-    callApi();
+  }
+  function changeUnit(unit) {
+    callApi(unit);
   }
 
   function submitCity(event) {
     event.preventDefault();
-    callApi();
+    callApi("metric");
   }
 
-  function callApi() {
+  function callApi(units) {
     const url = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${key}&units=${units}`;
     // axios.get(url).then(searchCityByCoordinats);
     axios.get(url).then(handleResponse);
@@ -185,7 +182,7 @@ export default function Weather(prop) {
       </div>
     );
   } else {
-    callApi();
+    callApi("metric");
     return <p>Loaded...</p>;
   }
 }
