@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import WeatherForDay from "./WeatherForDay";
 import FutureWeatherList from "./FutureWeatherList";
 import MainIcon from "./MainIcon";
 import WeatherDescription from "./WeatherDescription";
@@ -8,44 +7,23 @@ import "./Weather.css";
 import WeatherValues from "./WeatherValues";
 
 export default function Weather(prop) {
-  let key = "7tddcc04c39d0b7bffb9bca4oab00bfa";
+  const key = "7tddcc04c39d0b7bffb9bca4oab00bfa";
 
-  let [weather, setWeather] = useState("");
-  let [loaded, setLoaded] = useState("false");
-  let [city, setCity] = useState(prop.defaultCity);
-  let [windSpeed, setWindSpeed] = useState("km/h");
-  let units = "metric";
+  const [weather, setWeather] = useState("");
+  const [loaded, setLoaded] = useState("false");
+  const [city, setCity] = useState(prop.defaultCity);
+  const [windSpeed, setWindSpeed] = useState("km/h");
+  const [units, setUnits] = useState("metric");
+  const [main, setMain] = useState(0);
 
-  function cityName(event) {
-    event.preventDefault();
-    setCity(event.target.value);
-  }
-
-  function convertToFahrenheit(event) {
-    event.preventDefault();
-    replaceActiveUnitColor(".Fahrenheit", ".Celcius");
-    setWindSpeed("m/h");
-    units = "imperial";
+  useEffect(() => {
     callApi();
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [units]);
 
-  function convertToCelcius(event) {
-    event.preventDefault();
-    replaceActiveUnitColor(".Celcius", ".Fahrenheit");
-    setWindSpeed("km/h");
-    units = "metric";
-    callApi();
-  }
-
-  function replaceActiveUnitColor(add, remove) {
-    document.querySelector(add).classList.add("Active");
-    document.querySelector(remove).classList.remove("Active");
-  }
-
-  function submitCity(event) {
-    event.preventDefault();
-    replaceActiveUnitColor(".Celcius", ".Fahrenheit");
-    callApi();
+  function callApi() {
+    const url = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${key}&units=${units}`;
+    axios.get(url).then(handleResponse);
   }
 
   function getCurrentLocation(event) {
@@ -60,11 +38,6 @@ export default function Weather(prop) {
     });
   }
 
-  function callApi() {
-    const url = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${key}&units=${units}`;
-    axios.get(url).then(handleResponse);
-  }
-
   function searchByCoordinats(lat, lon) {
     const url = `https://api.shecodes.io/weather/v1/forecast?lon=${lon}&lat=${lat}&key=${key}`;
     axios.get(url).then(handleResponse);
@@ -73,10 +46,11 @@ export default function Weather(prop) {
   function handleResponse(response) {
     setLoaded("true");
     setCity(response.data.city);
-    let weatherDaily = [];
+    const cityName = response.data.city;
+    const weatherDaily = [];
     response.data.daily.map((day) =>
       weatherDaily.push({
-        city: `${city}`,
+        city: `${cityName}`,
         description: day.condition.description,
         temp: Math.round(day.temperature.day),
         max: Math.round(day.temperature.maximum),
@@ -89,6 +63,23 @@ export default function Weather(prop) {
       })
     );
     setWeather(weatherDaily);
+  }
+
+  function cityName(event) {
+    event.preventDefault();
+    setCity(event.target.value);
+  }
+
+  function submitCity(event) {
+    event.preventDefault();
+    replaceActiveUnitColor(".Celcius", ".Fahrenheit");
+    callApi();
+    event.target.reset();
+  }
+
+  function replaceMainDayWeather(event) {
+    event.preventDefault();
+    setMain(event.target.dataset.id);
   }
 
   function convertDate(data) {
@@ -128,6 +119,25 @@ export default function Weather(prop) {
     };
   }
 
+  function convertToFahrenheit(event) {
+    event.preventDefault();
+    replaceActiveUnitColor(".Fahrenheit", ".Celcius");
+    setWindSpeed("m/h");
+    setUnits("imperial");
+  }
+
+  function convertToCelcius(event) {
+    event.preventDefault();
+    replaceActiveUnitColor(".Celcius", ".Fahrenheit");
+    setWindSpeed("km/h");
+    setUnits("metric");
+  }
+
+  function replaceActiveUnitColor(add, remove) {
+    document.querySelector(add).classList.add("Active");
+    document.querySelector(remove).classList.remove("Active");
+  }
+
   if (loaded === "true") {
     return (
       <div>
@@ -157,16 +167,16 @@ export default function Weather(prop) {
         </div>
         <div>
           <WeatherDescription
-            city={city}
-            description={weather[0].description}
-            date={weather[0].date.full}
+            city={weather[main].city}
+            description={weather[main].description}
+            date={weather[main].date.full}
           />
           <div className="row align-items-center">
-            <MainIcon src={weather[0].icon} alt={weather[0].iconAlt} />
+            <MainIcon src={weather[main].icon} alt={weather[main].iconAlt} />
 
             <div className="col-sm-4">
               <div className="Temp">
-                <div className="Temp-value">{weather[0].temp}</div>
+                <div className="Temp-value">{weather[main].temp}</div>
                 <div className="Temp-units">
                   <a
                     href="/"
@@ -185,13 +195,15 @@ export default function Weather(prop) {
             </div>
 
             <WeatherValues
-              wind={weather[0].wind}
+              wind={weather[main].wind}
               windSpeed={windSpeed}
-              humidity={weather[0].humidity}
+              humidity={weather[main].humidity}
             />
           </div>
         </div>
-        <FutureWeatherList weather={weather} />
+        <div onClick={replaceMainDayWeather}>
+          <FutureWeatherList weather={weather} />
+        </div>
       </div>
     );
   } else {
