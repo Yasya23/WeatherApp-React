@@ -1,9 +1,8 @@
 import React from "react";
-import "./MainIcon.css";
 
 export default function MainIcon(prop) {
   return (
-    <div className="col-sm-4 Icon-main">
+    <div className="col-sm-4 text-center">
       <img src={prop.src} alt={prop.alt} />
     </div>
   );

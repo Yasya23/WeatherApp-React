@@ -3,18 +3,19 @@ import axios from "axios";
 import FutureWeatherList from "./FutureWeatherList";
 import MainIcon from "./MainIcon";
 import WeatherDescription from "./WeatherDescription";
-import "./Weather.css";
 import WeatherValues from "./WeatherValues";
 
 export default function Weather(prop) {
   const key = "7tddcc04c39d0b7bffb9bca4oab00bfa";
-
+  const fahrenheit = document.querySelector(".fahrenheit");
+  const celcius = document.querySelector(".celcius");
   const [weather, setWeather] = useState("");
   const [loaded, setLoaded] = useState("false");
   const [city, setCity] = useState(prop.defaultCity);
   const [windSpeed, setWindSpeed] = useState("km/h");
   const [units, setUnits] = useState("metric");
   const [main, setMain] = useState(0);
+  const [activeDay, setActiveDay] = useState(0);
 
   useEffect(() => {
     callApi();
@@ -72,14 +73,24 @@ export default function Weather(prop) {
 
   function submitCity(event) {
     event.preventDefault();
-    replaceActiveUnitColor(".Celcius", ".Fahrenheit");
+    replaceActiveUnitColor(celcius, fahrenheit);
     callApi();
     event.target.reset();
   }
 
   function replaceMainDayWeather(event) {
     event.preventDefault();
-    setMain(event.target.dataset.id);
+    const day = event.target.parentNode.dataset.id;
+    if (day !== undefined) {
+      if (activeDay !== day) {
+        document
+          .getElementById(activeDay)
+          .classList.remove("list-group-item-secondary");
+        document.getElementById(day).classList.add("list-group-item-secondary");
+        setActiveDay(day);
+      }
+      setMain(day);
+    }
   }
 
   function convertDate(data) {
@@ -121,21 +132,22 @@ export default function Weather(prop) {
 
   function convertToFahrenheit(event) {
     event.preventDefault();
-    replaceActiveUnitColor(".Fahrenheit", ".Celcius");
+    replaceActiveUnitColor(fahrenheit, celcius);
     setWindSpeed("m/h");
     setUnits("imperial");
   }
 
   function convertToCelcius(event) {
     event.preventDefault();
-    replaceActiveUnitColor(".Celcius", ".Fahrenheit");
+    replaceActiveUnitColor(celcius, fahrenheit);
     setWindSpeed("km/h");
     setUnits("metric");
   }
 
-  function replaceActiveUnitColor(add, remove) {
-    document.querySelector(add).classList.add("Active");
-    document.querySelector(remove).classList.remove("Active");
+  function replaceActiveUnitColor(unitAdd, unitRemove) {
+    const colorClass = "text-secondary";
+    unitAdd.classList.toggle(colorClass);
+    unitRemove.classList.remove(colorClass);
   }
 
   if (loaded === "true") {
@@ -147,7 +159,7 @@ export default function Weather(prop) {
               <input
                 type="search"
                 autoComplete="off"
-                className="form-control input-city"
+                className="form-control input-city p-2"
                 placeholder="Enter a city"
                 onChange={cityName}
               />
@@ -175,21 +187,25 @@ export default function Weather(prop) {
             <MainIcon src={weather[main].icon} alt={weather[main].iconAlt} />
 
             <div className="col-sm-4">
-              <div className="Temp">
-                <div className="Temp-value">{weather[main].temp}</div>
-                <div className="Temp-units">
-                  <a
-                    href="/"
-                    className="Celcius Active"
-                    onClick={convertToCelcius}>
-                    &#186;C
-                  </a>
-                  <a
-                    href="/"
-                    className="Fahrenheit"
-                    onClick={convertToFahrenheit}>
-                    &#186;F
-                  </a>
+              <div className="text-center">
+                <div
+                  className="me-1 position-relative"
+                  style={{ fontSize: "90px" }}>
+                  {weather[main].temp}
+                  <div className="fs-5 d-inline-block position-absolute mt-4">
+                    <a
+                      href="/"
+                      className="celcius me-1 text-decoration-none text-secondary"
+                      onClick={convertToCelcius}>
+                      &#186;C
+                    </a>
+                    <a
+                      href="/"
+                      className="fahrenheit text-decoration-none"
+                      onClick={convertToFahrenheit}>
+                      &#186;F
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -198,6 +214,8 @@ export default function Weather(prop) {
               wind={weather[main].wind}
               windSpeed={windSpeed}
               humidity={weather[main].humidity}
+              minTemp={weather[main].min}
+              maxTemp={weather[main].max}
             />
           </div>
         </div>
