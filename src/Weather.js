@@ -4,6 +4,7 @@ import FutureWeatherList from "./FutureWeatherList";
 import MainIcon from "./MainIcon";
 import WeatherDescription from "./WeatherDescription";
 import WeatherValues from "./WeatherValues";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Weather(prop) {
   const key = "7tddcc04c39d0b7bffb9bca4oab00bfa";
@@ -16,6 +17,16 @@ export default function Weather(prop) {
   const [units, setUnits] = useState("metric");
   const [main, setMain] = useState(0);
   const [activeDay, setActiveDay] = useState(0);
+  const [pointerEventsUnits, setPoinerEventsUnits] = useState({
+    fahrenheit: true,
+    celcius: "none",
+  });
+  const [lat, setLat] = useState("");
+  const [lon, setLong] = useState("");
+
+  useEffect(() => {
+    getCurrentLocation();
+  }, [lat, lon]);
 
   useEffect(() => {
     callApi();
@@ -30,11 +41,15 @@ export default function Weather(prop) {
   function getCurrentLocation(event) {
     event.preventDefault();
     navigator.geolocation.getCurrentPosition(function (position) {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-      if (lat !== 0 || lon !== 0) {
+      // const lat = position.coords.latitude;
+      // const lon = position.coords.longitude;
+      setLat(position.coords.latitude);
+      setLong(position.coords.longitude);
+      if (lat !== "" || lon !== "") {
         searchByCoordinats(lat, lon);
-        replaceActiveUnitColor(".Celcius", ".Fahrenheit");
+        replaceActiveUnitColor(fahrenheit, celcius);
+        disableUnitIfActive(true, "none");
+        setUnits("metric");
       }
     });
   }
@@ -73,7 +88,7 @@ export default function Weather(prop) {
 
   function submitCity(event) {
     event.preventDefault();
-    replaceActiveUnitColor(celcius, fahrenheit);
+    // replaceActiveUnitColor(fahrenheit, celcius);
     callApi();
     event.target.reset();
   }
@@ -132,21 +147,30 @@ export default function Weather(prop) {
 
   function convertToFahrenheit(event) {
     event.preventDefault();
-    replaceActiveUnitColor(fahrenheit, celcius);
+    replaceActiveUnitColor(celcius, fahrenheit);
+    disableUnitIfActive("none", true);
     setWindSpeed("m/h");
     setUnits("imperial");
   }
 
   function convertToCelcius(event) {
     event.preventDefault();
-    replaceActiveUnitColor(celcius, fahrenheit);
+    replaceActiveUnitColor(fahrenheit, celcius);
+    disableUnitIfActive(true, "none");
     setWindSpeed("km/h");
     setUnits("metric");
   }
 
+  function disableUnitIfActive(fahrenheit, celcius) {
+    setPoinerEventsUnits({
+      fahrenheit: fahrenheit,
+      celcius: celcius,
+    });
+  }
+
   function replaceActiveUnitColor(unitAdd, unitRemove) {
     const colorClass = "text-secondary";
-    unitAdd.classList.toggle(colorClass);
+    unitAdd.classList.add(colorClass);
     unitRemove.classList.remove(colorClass);
   }
 
@@ -195,13 +219,15 @@ export default function Weather(prop) {
                   <div className="fs-5 d-inline-block position-absolute mt-4">
                     <a
                       href="/"
-                      className="celcius me-1 text-decoration-none text-secondary"
+                      className="celcius me-1 text-decoration-none"
+                      style={{ pointerEvents: pointerEventsUnits.celcius }}
                       onClick={convertToCelcius}>
                       &#186;C
                     </a>
                     <a
                       href="/"
-                      className="fahrenheit text-decoration-none"
+                      className="fahrenheit text-decoration-none text-secondary"
+                      style={{ pointerEvents: pointerEventsUnits.fahrenheit }}
                       onClick={convertToFahrenheit}>
                       &#186;F
                     </a>
@@ -226,6 +252,19 @@ export default function Weather(prop) {
     );
   } else {
     callApi();
-    return <p>Loaded...</p>;
+    return (
+      <div className="d-flex justify-content-center">
+        <ThreeDots
+          height="80"
+          width="80"
+          radius="9"
+          color="#00b4d8"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClassName=""
+          visible={true}
+        />
+      </div>
+    );
   }
 }

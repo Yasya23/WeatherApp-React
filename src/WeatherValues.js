@@ -13,8 +13,8 @@ export default function WeatherValues(prop) {
           Wind: {prop.wind} {prop.windSpeed}
         </li>
         <li>
-          Min-max: <span className="text-secondary">{prop.minTemp}&#186;</span>{" "}
-          {prop.maxTemp}&#186;
+          Min: <span className="text-secondary">{prop.minTemp}&#186;</span> max:{" "}
+          <span>{prop.maxTemp}&#186;</span>
         </li>
       </ul>
     </div>

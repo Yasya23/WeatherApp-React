@@ -28,10 +28,8 @@ export default function FutureWeatherList(prop) {
               <img src={prop.weather[i].icon} alt="" height="50" width="50" />
             </li>
             <li data-id={i}>
-              <span className="text-secondary">
-                {prop.weather[i].min}&#186;
-              </span>{" "}
-              {prop.weather[i].max}&#186;
+              <div className="text-secondary">{prop.weather[i].min}&#186;</div>{" "}
+              <div> {prop.weather[i].max}&#186;</div>
             </li>
           </ul>
         </a>
