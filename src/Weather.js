@@ -21,12 +21,6 @@ export default function Weather(prop) {
     fahrenheit: true,
     celcius: "none",
   });
-  const [lat, setLat] = useState("");
-  const [lon, setLong] = useState("");
-
-  useEffect(() => {
-    getCurrentLocation();
-  }, [lat, lon]);
 
   useEffect(() => {
     callApi();
@@ -41,10 +35,8 @@ export default function Weather(prop) {
   function getCurrentLocation(event) {
     event.preventDefault();
     navigator.geolocation.getCurrentPosition(function (position) {
-      // const lat = position.coords.latitude;
-      // const lon = position.coords.longitude;
-      setLat(position.coords.latitude);
-      setLong(position.coords.longitude);
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
       if (lat !== "" || lon !== "") {
         searchByCoordinats(lat, lon);
         replaceActiveUnitColor(fahrenheit, celcius);
