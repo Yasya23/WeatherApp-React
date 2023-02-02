@@ -56,7 +56,7 @@ export default function Weather(prop) {
     setCity(response.data.city);
     const cityName = response.data.city;
     const weatherDaily = [];
-    response.data.daily.map((day) =>
+    response.data.daily.forEach((day) =>
       weatherDaily.push({
         city: `${cityName}`,
         description: day.condition.description,
@@ -80,7 +80,6 @@ export default function Weather(prop) {
 
   function submitCity(event) {
     event.preventDefault();
-    // replaceActiveUnitColor(fahrenheit, celcius);
     callApi();
     event.target.reset();
   }
