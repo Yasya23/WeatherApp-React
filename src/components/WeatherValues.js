@@ -1,11 +1,11 @@
-import React from "react";
+import React, { memo } from 'react';
 
-export default function WeatherValues(prop) {
+const WeatherValues = (prop) => {
   return (
     <div className="col-sm-4">
       <ul
         className="pt-1 ps-3 text-center text-sm-start fs-6 "
-        style={{ listStyle: "none" }}>
+        style={{ listStyle: 'none' }}>
         <li>
           Humidity: {prop.humidity} <span>%</span>
         </li>
@@ -13,10 +13,12 @@ export default function WeatherValues(prop) {
           Wind: {prop.wind} {prop.windSpeed}
         </li>
         <li>
-          Min: <span className="text-secondary">{prop.minTemp}&#186;</span> max:{" "}
+          Min: <span className="text-secondary">{prop.minTemp}&#186;</span> max:{' '}
           <span>{prop.maxTemp}&#186;</span>
         </li>
       </ul>
     </div>
   );
-}
+};
+
+export default memo(WeatherValues);

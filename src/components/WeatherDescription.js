@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from 'react';
 
-export default function WeatherDescription(prop) {
+const WeatherDescription = (prop) => {
   return (
     <div className="row">
       <div className="col">
@@ -12,4 +12,6 @@ export default function WeatherDescription(prop) {
       </div>
     </div>
   );
-}
+};
+
+export default memo(WeatherDescription);
