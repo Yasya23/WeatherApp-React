@@ -3,7 +3,8 @@ import React from 'react';
 export default function FutureWeatherItem({ data, active, onClick }) {
   return (
     <a
-      className="col list-group rounded"
+      href="/"
+      className="col list-group rounded btn-link"
       style={{ textDecoration: 'none' }}
       onClick={onClick}>
       <ul

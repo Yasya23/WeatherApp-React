@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, memo } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 
 import Location from './Location';
 import createDailyWeatherData from '../helpers/createDailyWeatherData';
@@ -11,7 +11,7 @@ import WeatherDescription from './WeatherDescription';
 import WeatherValues from './WeatherValues';
 import { ThreeDots } from 'react-loader-spinner';
 
-function App() {
+export default function App() {
   const key = '7tddcc04c39d0b7bffb9bca4oab00bfa';
   const [units, setUnits] = useState('metric');
   const [weather, setWeather] = useState(null);
@@ -29,6 +29,8 @@ function App() {
 
   useEffect(() => {
     if (city) {
+      console.log(1);
+
       const url = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${key}&units=${units}`;
       axios
         .get(url)
@@ -43,6 +45,8 @@ function App() {
   }, [units, city]);
 
   useEffect(() => {
+    console.log(2);
+
     getByCoordinates &&
       navigator.geolocation.getCurrentPosition(function (position) {
         const lat = position.coords.latitude;
@@ -122,7 +126,8 @@ function App() {
                     key={index}
                     data={el}
                     active={index === activeDay}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       setActiveDay(index);
                     }}
                   />
@@ -155,5 +160,3 @@ function App() {
     </div>
   );
 }
-
-export default memo(App);

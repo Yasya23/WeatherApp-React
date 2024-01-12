@@ -31,13 +31,13 @@ export default function ActiveDay({ weather, activeDay, changeUnits, unit }) {
         <div className="fs-5 d-inline-block position-absolute mt-4">
           <a
             href="/"
-            className={`celcius me-1 text-decoration-none ${isMetric}`}
+            className={`me-1 text-decoration-none ${isMetric}`}
             onClick={(e) => handleChangeUnit(e, 'metric')}>
             &#186;C
           </a>
           <a
             href="/"
-            className={`fahrenheit text-decoration-none ${isImperial}`}
+            className={`text-decoration-none ${isImperial}`}
             onClick={(e) => handleChangeUnit(e, 'imperial')}>
             &#186;F
           </a>
