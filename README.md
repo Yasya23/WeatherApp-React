@@ -1,6 +1,6 @@
 # Weather App
 
-[Demo]([https://incredible-horse-e2a62e.netlify.app/](https://65a0fe82bbae719f3a56e2f1--gentle-croissant-d5e0fb.netlify.app/)
+[Demo](https://65a0fe82bbae719f3a56e2f1--gentle-croissant-d5e0fb.netlify.app/)
 
 This is a weather app built with React that allows users to search for the current weather in a city or by their current location. It also provides a 5-day forecast and the ability to switch between metric and imperial units. The app is responsive and uses Bootstrap for styling.
 
