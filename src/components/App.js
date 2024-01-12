@@ -29,8 +29,6 @@ export default function App() {
 
   useEffect(() => {
     if (city) {
-      console.log(1);
-
       const url = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${key}&units=${units}`;
       axios
         .get(url)
@@ -45,8 +43,6 @@ export default function App() {
   }, [units, city]);
 
   useEffect(() => {
-    console.log(2);
-
     getByCoordinates &&
       navigator.geolocation.getCurrentPosition(function (position) {
         const lat = position.coords.latitude;
