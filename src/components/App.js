@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Location from './Location';
 import createDailyWeatherData from '../helpers/createDailyWeatherData';
 import ActiveDay from './ActiveDay';
-
 import axios from 'axios';
 import FutureWeatherItem from './FutureWeatherItem';
 import MainIcon from './MainIcon';
@@ -12,7 +11,7 @@ import WeatherValues from './WeatherValues';
 import { ThreeDots } from 'react-loader-spinner';
 
 export default function App() {
-  const key = '7tddcc04c39d0b7bffb9bca4oab00bfa';
+  const key = process.env.API_KEY;
   const [units, setUnits] = useState('metric');
   const [weather, setWeather] = useState(null);
   const [loaded, setLoaded] = useState(false);
