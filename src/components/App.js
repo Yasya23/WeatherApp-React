@@ -12,7 +12,6 @@ import { ThreeDots } from 'react-loader-spinner';
 
 export default function App() {
   const key = process.env.REACT_APP_API_KEY;
-  console.log(key);
   const [units, setUnits] = useState('metric');
   const [weather, setWeather] = useState(null);
   const [loaded, setLoaded] = useState(false);
