@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Location from './Location';
 import createDailyWeatherData from '../helpers/createDailyWeatherData';
@@ -122,8 +122,7 @@ export default function App() {
                     key={index}
                     data={el}
                     active={index === activeDay}
-                    onClick={(e) => {
-                      e.preventDefault();
+                    onClick={() => {
                       setActiveDay(index);
                     }}
                   />

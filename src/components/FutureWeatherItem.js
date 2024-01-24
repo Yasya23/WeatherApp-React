@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function FutureWeatherItem({ data, active, onClick }) {
   return (
-    <a
-      href="/"
+    <Link
+      to="/"
       className="col list-group rounded btn-link"
       style={{ textDecoration: 'none' }}
       onClick={onClick}>
@@ -21,6 +22,6 @@ export default function FutureWeatherItem({ data, active, onClick }) {
           <div> {data.max}&#186;</div>
         </li>
       </ul>
-    </a>
+    </Link>
   );
 }

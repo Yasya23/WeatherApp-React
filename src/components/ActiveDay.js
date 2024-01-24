@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function ActiveDay({ weather, activeDay, changeUnits, unit }) {
   const [units, setUnits] = useState(unit);
@@ -29,18 +30,18 @@ export default function ActiveDay({ weather, activeDay, changeUnits, unit }) {
       <div className="me-1 position-relative" style={{ fontSize: '90px' }}>
         {weather[activeDay]?.temp}
         <div className="fs-5 d-inline-block position-absolute mt-4">
-          <a
-            href="/"
+          <Link
+            to="/"
             className={`me-1 text-decoration-none ${isMetric}`}
             onClick={(e) => handleChangeUnit(e, 'metric')}>
             &#186;C
-          </a>
-          <a
-            href="/"
+          </Link>
+          <Link
+            to="/"
             className={`text-decoration-none ${isImperial}`}
             onClick={(e) => handleChangeUnit(e, 'imperial')}>
             &#186;F
-          </a>
+          </Link>
         </div>
       </div>
     </div>
